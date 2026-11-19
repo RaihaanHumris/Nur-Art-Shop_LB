@@ -1,0 +1,6 @@
+{
+  "name": "Nur Art Shop Labuan Bajo – Authentic NTT Fine Craft & Editorial Lookbook",
+  "description": "Galeri kurasi tenun ikat asli, ukiran komodo kayu jati, mutiara laut Flores, dan anyaman tradisional NTT di jantung Labuan Bajo. Tersedia eksklusif di butik fisik kami.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
