@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+  <url>
+    <loc>https://nur-art-shop-lb.vercel.app/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="id" href="https://nur-art-shop-lb.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://nur-art-shop-lb.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nur-art-shop-lb.vercel.app/" />
+    <image:image>
+      <image:loc>https://nur-art-shop-lb.vercel.app/src/assets/images/hero_nur_art_shop_gallery_1795070278898.jpg</image:loc>
+      <image:title>Toko oleh oleh dan souvenir labuan bajo | NUR ART SHOP</image:title>
+      <image:caption>Galeri fisik tenun Songke Manggarai asli, ukiran kayu Komodo, mutiara laut Flores, dan kerajinan tangan NTT di Jl. Soekarno Hatta, Kampung Tengah, Labuan Bajo.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nur-art-shop-lb.vercel.app/src/assets/images/tenun_ikat_sikka_royal_1795070277552.jpg</image:loc>
+      <image:title>Tenun Songke Manggarai Pewarna Alam - Nur Art Shop Labuan Bajo</image:title>
+      <image:caption>Kain tenun tangan asli Manggarai dengan pewarna alami kapas pintal tangan di Nur Art Shop Labuan Bajo.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nur-art-shop-lb.vercel.app/src/assets/images/ukiran_komodo_kayu_jati_1795070278648.jpg</image:loc>
+      <image:title>Patung Ukiran Komodo Kayu Jati Tua - Nur Art Shop Labuan Bajo</image:title>
+      <image:caption>Ukiran tangan patung Komodo kayu jati tua asli pengrajin Pulau Komodo dan Manggarai Barat.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nur-art-shop-lb.vercel.app/src/assets/images/mutiara_laut_flores_south_sea_1795070278073.jpg</image:loc>
+      <image:title>Mutiara Laut Selatan Emas dan Putih Flores - Nur Art Shop Labuan Bajo</image:title>
+      <image:caption>Perhiasan mutiara air laut selatan asli perairan Flores dan Komodo bersertifikat di Nur Art Shop Labuan Bajo.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nur-art-shop-lb.vercel.app/src/assets/images/anyaman_lontar_songke_manggarai_1795070278597.jpg</image:loc>
+      <image:title>Kerajinan Anyaman Rotan dan Lontar Manggarai - Nur Art Shop Labuan Bajo</image:title>
+      <image:caption>Wadah anyaman rotan hutan dan daun lontar hasil karya pengrajin perempuan Manggarai Barat.</image:caption>
+    </image:image>
+  </url>
+</urlset>
