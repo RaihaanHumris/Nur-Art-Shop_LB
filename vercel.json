@@ -4,10 +4,9 @@
   "installCommand": "npm install --legacy-peer-deps",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/((?!assets/|src/assets/).*)",
+      "source": "/((?!assets/|src/assets/|googlec80d149ee2033299\\.html|google.*\\.html|robots\\.txt|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
   ],
