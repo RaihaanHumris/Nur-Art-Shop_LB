@@ -46,21 +46,21 @@ export const STORE_INFO = {
   googleMapsUrl: 'https://maps.app.goo.gl/vD95mBh1dBotJRxd7',
   googleReviewsUrl: 'https://maps.app.goo.gl/vD95mBh1dBotJRxd7',
   googleMapsEmbedUrl:
-    'https://www.google.com/maps?q=Toko+oleh+oleh+dan+souvenir+labuan+bajo+%7C+NUR+ART+SHOP+Jl.+Soekarno+Hatta,+Kampung+Tengah,+Labuan+Bajo,+Kec.+Komodo,+Kabupaten+Manggarai+Barat,+Nusa+Tenggara+Timur+86554&hl=id&z=17&output=embed',
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.5!2d119.8784846!3d-8.4939895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2db4675a80152919%3A0xefb54c815a35b08c!2sToko%20oleh%20oleh%20dan%20souvenir%20labuan%20bajo%20%7C%20NUR%20ART%20SHOP!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid',
   whatsappNumber: '6281238904421',
   phoneDisplay: '+62 812-3890-4421',
-  coordinates: '8°29\'28.4"S 119°52\'41.2"E',
+  coordinates: '8°29\'38.4"S 119°52\'42.5"E',
   rating: '4.9',
   reviewCount: '180+',
 };
 
 export const HOTLINK_IMAGES = {
-  hero: 'https://lh3.googleusercontent.com/aida/ALJJyrCPn6LQNqpSv4dcu2LwN1Ekny2npu31Q6JBXXe3S_A9mqUyFJDC8JjmS10TBSdAOPo1GSNxQroeaCgHXx0idZz_V6sVU2K2nLNtq8lRj-03kqxD0a9tv5Nv7GEYwujjVMpFlQeTBhXofZoEsjBNknwXH94u7WwWxXV0v_OtYFu21er7UIUJLKA7WIOVUztN94BZn4dNZsb_iE3W9BshRJiXbq6OIJfCsuIoq1Dk12P3acBf0f2Mu6R9Yq4k-JWGTmEY',
-  tenun: 'https://lh3.googleusercontent.com/aida/ALJJyrDUBEJBbWTmaU1GXkVlTIp6gpsh6ze8YQNyWSszpXN6fg0eg088O0j-li6w8iXYdHzTvN0JRxubk2ooOPcDo2670TuS4lh2D0ItS4B3SdAM-Vzj_jMejtVgD48imIioWcUyGCnoAdetpDH_ZDa96wD1Af-Ls-Pni4i3J28atbDmuUOQUP-T96Xt2xQAPPgjIexroXiGNQCzO5ezGdwKe7Tj93wfEw3xq6XE4Oi0fhS6VkER2G5CW0koRUITd4A',
-  komodo: 'https://lh3.googleusercontent.com/aida/ALJJyrAlOEHbHI4nE3DQt1DQxSdrxfMdn_i8xF2yvxlHjcYmAmeQaOVSNHiIK5cIMHwbvH2ZnHBRYmTl_YE7PaAQw2A0Pc-yDS4ju6UJSGUXuNrw1FJ4KLMMQ7OAtlTyXdHaL0muP7dLTkD9Lf2h8odm-kDSCnphtl5lmGJ0qfzJRB6_JH-COPI2rpCKsyHEYb9T7b9EK4btFnNFuTvQ6p9vXqJMVczGHlw3JH7ywAYvb4sNHu4I7EKsSvIHKK19O4afh7w',
-  pearls: 'https://lh3.googleusercontent.com/aida/ALJJyrAypU2rB4PpYUGEQhDIPE3Cc7gZv6r7IS7IBtoWuUFDer6I_S_KSwL_wto_Vqbjzr3v5hx-hMhTbhkpfpg4n57ZKX4RIeu2LLajYCOEAda_3cJGvzGh1nL9whno_Bm47LS1RiwJX0MQ7sTTLS2Fvarxa_9divAiKcaFUG_1fzDjPc281LMpvrnOaKyA8PvFRi9DhbzKNQGcs95f1SVhycM8F6Y3OpD3qJ_4fhSgqmRs41kAscV6r8s_fJrq',
-  rattan: 'https://lh3.googleusercontent.com/aida/ALJJyrBq-3EYqnvVbCl6mLBwkmFKOADrN2G5G4nQHMFuneNRRKbeWYgp9DXGtef64ekSf09lB0FLIZCaOeuxrjRwTEFvUUTKAO4hiy2QUB9hkBT5xeUzB3OgrNMqctRPslgF9NodE_kRoOF05bY_pt2J_a4s5stftBeazKxYSbYobTGiQhFv6796zw44rzmmyAmac-wb_1mihpvqEN_RlHYBJo_ghkMGbEapFKFhSkDAD8fP_9RHaE5_lAMHA7Qe3lU',
-  storyWeaver: 'https://lh3.googleusercontent.com/aida/ALJJyrBYTz89ZR5z93I90OqLlpikbrhTcuFGYv_lPtHTUAWK8Sg9kKLgFchsEqNmlteD11aAHMp-FeRTc49cUR5FPhRBG-RBEGJZ2fOzkfHuoaSn1WCX6XJcMRxhobBqC9K2tDyZvMp9D_MRme0FKZfV3vpLPLabteo49wU3AhF3eLXgh8V2zL2gc_5T_f-S7u9Syhbglf4vmexJPc8qSLv55EDt60Fp_yqYIcWAvnrXfT5a73XKkG-MBKA-QcveWs_ipg',
+  hero: '/src/assets/images/hero_nur_art_shop_gallery_1795070278898.jpg',
+  tenun: '/src/assets/images/tenun_ikat_sikka_royal_1795070277552.jpg',
+  komodo: '/src/assets/images/ukiran_komodo_kayu_jati_1795070278648.jpg',
+  pearls: '/src/assets/images/mutiara_laut_flores_south_sea_1795070278073.jpg',
+  rattan: '/src/assets/images/anyaman_lontar_songke_manggarai_1795070278597.jpg',
+  storyWeaver: '/src/assets/images/artisan_weaver_hands_flores_1795070288024.jpg',
 };
 
 export const COLLECTION_ITEMS: CollectionItem[] = [
@@ -603,8 +603,8 @@ export const UI_COPY = {
       en: 'Visit Effortlessly Before Your Flight or Phinisi Voyage',
     },
     subtitle: {
-      id: 'Terletak strategis di koridor utama pesisir Labuan Bajo, galeri kami sangat mudah dijangkau baik dari pelabuhan kapal wisata maupun dalam perjalanan menuju Bandara Internasional Komodo.',
-      en: 'Conveniently situated on Labuan Bajo’s main coastal avenue, our air-conditioned gallery is an easy stop whether you are disembarking at the marina or heading to Komodo International Airport.',
+      id: 'Terletak strategis di koridor utama Jl. Soekarno Hatta, Kampung Tengah, Labuan Bajo, galeri kami sangat mudah dijangkau baik dari pelabuhan kapal wisata maupun dalam perjalanan menuju Bandara Internasional Komodo.',
+      en: 'Conveniently situated on Jl. Soekarno Hatta, Kampung Tengah, Labuan Bajo, our gallery is an easy stop whether you are disembarking at the marina or heading to Komodo International Airport.',
     },
     addressHeading: { id: 'Alamat Galeri Fisik', en: 'Physical Gallery Address' },
     landmarksHeading: { id: 'Patokan Jarak & Waktu Tempuh', en: 'Distance from Key Landmarks' },
@@ -657,10 +657,10 @@ export const UI_COPY = {
         },
       },
       {
-        title: { id: 'Ruang Galeri Ber-AC & Penitipan Koper Sementara', en: 'Air-Conditioned Gallery & Luggage Corner' },
+        title: { id: 'Jaminan Keaslian & Penitipan Koper Sementara', en: '100% Authentic Craft & Luggage Corner' },
         desc: {
-          id: 'Ruang pamer sejuk dengan tempat penyimpanan koper sementara saat Anda memilih koleksi dengan santai.',
-          en: 'Cool, unhurried gallery space with a dedicated luggage corner while you browse comfortably.',
+          id: 'Jaminan tenun tangan asli (bukan printing) serta tempat penitipan koper sementara saat Anda memilih koleksi.',
+          en: 'Guaranteed authentic handwoven textiles alongside a dedicated luggage corner while you browse comfortably.',
         },
       },
       {

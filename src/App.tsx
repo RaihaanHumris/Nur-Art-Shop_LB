@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MapPin,
   Navigation,
@@ -22,9 +22,7 @@ import {
   Gem,
   ShoppingBag,
   CheckCircle2,
-  Store,
   Package,
-  Snowflake,
   Leaf,
   Handshake,
 } from 'lucide-react';
@@ -59,6 +57,14 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeReviewIndex, setActiveReviewIndex] = useState(0);
 
+  // Mobile lookbook carousel state & drag-to-scroll ref
+  const lookbookCarouselRef = useRef<HTMLDivElement | null>(null);
+  const [activeLookbookSlide, setActiveLookbookSlide] = useState(0);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const scrollStartLeftRef = useRef(0);
+  const dragMovedRef = useRef(false);
+
   useEffect(() => {
     try {
       sessionStorage.setItem('nur_art_shop_lang', lang);
@@ -91,6 +97,67 @@ export default function App() {
 
   const handleNextReview = () => {
     setActiveReviewIndex((prev) => (prev === VISITOR_REVIEWS.length - 1 ? 0 : prev + 1));
+  };
+
+  // Scroll the mobile lookbook carousel left or right by 1 card
+  const scrollLookbookCarousel = (direction: 'prev' | 'next' | number) => {
+    const container = lookbookCarouselRef.current;
+    if (!container) return;
+    const cardWidth = 295; // 280px width + 16px gap
+    let targetIndex = activeLookbookSlide;
+
+    if (typeof direction === 'number') {
+      targetIndex = direction;
+    } else if (direction === 'prev') {
+      targetIndex =
+        activeLookbookSlide <= 0 ? filteredCollections.length - 1 : activeLookbookSlide - 1;
+    } else {
+      targetIndex =
+        activeLookbookSlide >= filteredCollections.length - 1 ? 0 : activeLookbookSlide + 1;
+    }
+
+    setActiveLookbookSlide(targetIndex);
+    container.scrollTo({
+      left: targetIndex * cardWidth,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleLookbookScroll = () => {
+    const container = lookbookCarouselRef.current;
+    if (!container) return;
+    const cardWidth = 295;
+    const idx = Math.round(container.scrollLeft / cardWidth);
+    if (idx >= 0 && idx < filteredCollections.length && idx !== activeLookbookSlide) {
+      setActiveLookbookSlide(idx);
+    }
+  };
+
+  // Mouse drag-to-scroll handlers so users can also drag cards with a mouse
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = lookbookCarouselRef.current;
+    if (!container) return;
+    isDraggingRef.current = true;
+    dragMovedRef.current = false;
+    dragStartXRef.current = e.pageX - container.offsetLeft;
+    scrollStartLeftRef.current = container.scrollLeft;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    const container = lookbookCarouselRef.current;
+    if (!container) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - dragStartXRef.current) * 1.25;
+    if (Math.abs(walk) > 6) {
+      dragMovedRef.current = true;
+    }
+    container.scrollLeft = scrollStartLeftRef.current - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
   };
 
   return (
@@ -152,7 +219,7 @@ export default function App() {
 
           {/* Right Zone: Language Switcher (EN | ID) & Primary GET DIRECTIONS Button */}
           <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
-            {/* Bilingual Toggle (EN | ID) styled as soft linen pill container */}
+            {/* Bilingual Toggle (EN | ID) */}
             <div
               role="group"
               aria-label="Language Switcher"
@@ -182,7 +249,7 @@ export default function App() {
               </button>
             </div>
 
-            {/* Primary CTA: GET DIRECTIONS with Navigation Arrow Icon */}
+            {/* Primary CTA: GET DIRECTIONS */}
             <a
               href={STORE_INFO.googleMapsUrl}
               target="_blank"
@@ -279,22 +346,18 @@ export default function App() {
           {/* Hero Content Container */}
           <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-8 lg:pt-32 lg:pb-16">
             <div className="max-w-3xl">
-              {/* Editorial Overline */}
               <p className="text-[10px] sm:text-xs tracking-[0.15em] uppercase font-semibold text-[#EAE3D5]/90">
                 {UI_COPY.hero.overline[lang]}
               </p>
 
-              {/* Hero Display Headline */}
               <h1 className="font-serif text-[32px] sm:text-5xl lg:text-[56px] font-semibold text-[#F5F0E6] leading-[1.15] mt-2.5 lg:mt-3 [text-wrap:balance]">
                 {UI_COPY.hero.headline[lang]}
               </h1>
 
-              {/* Editorial Subheadline */}
               <p className="text-sm sm:text-lg text-[#EAE3D5]/95 leading-[1.65] mt-3.5 lg:mt-5 max-w-2xl">
                 {UI_COPY.hero.subheadline[lang]}
               </p>
 
-              {/* Primary & Secondary CTAs */}
               <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <a
                   href={STORE_INFO.googleMapsUrl}
@@ -385,7 +448,7 @@ export default function App() {
             SECTION 2: CURATED COLLECTION LOOKBOOK (F-03 - Offline-Only Gallery)
            =================================================================== */}
         <section id="koleksi" className="py-12 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Editorial Section Header */}
+          {/* Editorial Section Header + Interactive Slide Controls on Mobile */}
           <div className="flex items-end justify-between gap-4 pb-5 lg:pb-8">
             <div className="max-w-3xl">
               <p className="text-[10px] sm:text-xs tracking-[0.15em] uppercase font-semibold text-[#A85232]">
@@ -399,17 +462,35 @@ export default function App() {
               </p>
             </div>
 
-            {/* Mobile Swipe Hint Indicator */}
-            <span className="lg:hidden text-[10px] font-bold uppercase tracking-[0.12em] text-[#A85232] shrink-0 pb-1">
-              {lang === 'id' ? 'Geser →' : 'Swipe →'}
-            </span>
+            {/* Mobile Interactive Geser / Slide Left-Right Buttons (< lg) */}
+            <div className="lg:hidden flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => scrollLookbookCarousel('prev')}
+                aria-label={lang === 'id' ? 'Geser katalog ke kiri' : 'Slide lookbook left'}
+                className="w-8 h-8 rounded-[3px] border border-[#D8CEBE] bg-[#EBE4D6] hover:bg-[#A85232] hover:text-[#F5F0E6] text-[#2B2520] flex items-center justify-center transition-colors cursor-pointer active:scale-95"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#A85232] px-1 tabular-nums">
+                {activeLookbookSlide + 1}/{filteredCollections.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => scrollLookbookCarousel('next')}
+                aria-label={lang === 'id' ? 'Geser katalog ke kanan' : 'Slide lookbook right'}
+                className="w-8 h-8 rounded-[3px] border border-[#D8CEBE] bg-[#EBE4D6] hover:bg-[#A85232] hover:text-[#F5F0E6] text-[#2B2520] flex items-center justify-center transition-colors cursor-pointer active:scale-95"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          {/* Horizontal Category Filter Bar (Desktop & Tablet) */}
+          {/* Horizontal Category Filter Bar */}
           <div
             role="tablist"
             aria-label={lang === 'id' ? 'Filter kategori koleksi' : 'Collection category filter'}
-            className="flex overflow-x-auto no-scrollbar lg:flex-wrap items-center gap-2 pb-6 lg:pb-8 -mx-4 px-4 lg:mx-0 lg:px-0"
+            className="flex overflow-x-auto no-scrollbar lg:flex-wrap items-center gap-2 pb-5 lg:pb-8 -mx-4 px-4 lg:mx-0 lg:px-0"
           >
             {categoriesList.map((cat) => {
               const isActive = activeCategory === cat.id;
@@ -419,7 +500,13 @@ export default function App() {
                   type="button"
                   role="tab"
                   aria-selected={isActive}
-                  onClick={() => setActiveCategory(cat.id)}
+                  onClick={() => {
+                    setActiveCategory(cat.id);
+                    setActiveLookbookSlide(0);
+                    if (lookbookCarouselRef.current) {
+                      lookbookCarouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+                    }
+                  }}
                   className={`px-3.5 lg:px-4 py-2 lg:py-2.5 text-[10px] lg:text-[11px] font-bold tracking-[0.13em] uppercase rounded-[3px] border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'bg-[#2B2520] text-[#F5F0E6] border-[#2B2520]'
@@ -433,67 +520,127 @@ export default function App() {
           </div>
 
           {/* -----------------------------------------------------------------
-              MOBILE LOOKBOOK: Horizontal Swipeable Carousel (< lg)
-              Saves vertical space so mobile page does not stretch downward
+              MOBILE LOOKBOOK: Swipeable & Drag-Scrollable Horizontal Carousel (< lg)
+              Supports touch swipe, mouse click-and-drag, card arrow buttons,
+              AND multi-photo sliding inside each card!
              ----------------------------------------------------------------- */}
-          <div className="lg:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 -mx-4 px-4">
-            {filteredCollections.map((item) => {
-              const badgeStyle =
-                item.badgeVariant === 'terracotta'
-                  ? 'bg-[#A85232] text-[#F5F0E6]'
-                  : item.badgeVariant === 'teal'
-                  ? 'bg-[#1C4B52] text-[#F5F0E6]'
-                  : 'bg-[#F5F0E6]/95 text-[#2B2520] shadow-xs';
+          <div className="lg:hidden relative">
+            <div
+              ref={lookbookCarouselRef}
+              onScroll={handleLookbookScroll}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 -mx-4 px-4 select-none cursor-grab active:cursor-grabbing"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
+              {filteredCollections.map((item) => {
+                const badgeStyle =
+                  item.badgeVariant === 'terracotta'
+                    ? 'bg-[#A85232] text-[#F5F0E6]'
+                    : item.badgeVariant === 'teal'
+                    ? 'bg-[#1C4B52] text-[#F5F0E6]'
+                    : 'bg-[#F5F0E6]/95 text-[#2B2520] shadow-xs';
 
-              // Extract compact price string for mobile card
-              const compactPrice = item.priceRangeLabel[lang].includes(':')
-                ? item.priceRangeLabel[lang].split(':')[1].trim()
-                : item.priceRangeLabel[lang];
+                const compactPrice = item.priceRangeLabel[lang].includes(':')
+                  ? item.priceRangeLabel[lang].split(':')[1].trim()
+                  : item.priceRangeLabel[lang];
 
-              return (
-                <article
-                  key={item.id}
-                  onClick={() => setSelectedArtwork(item)}
-                  className="snap-center shrink-0 w-[275px] bg-[#EBE4D6] border border-[#D8CEBE] rounded-[2px] p-3 flex flex-col justify-between cursor-pointer active:scale-[0.99] transition-transform"
-                >
-                  <div>
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#DCD3C4] mb-3 rounded-[2px]">
-                      <ResilientImage
-                        src={item.image}
-                        alt={item.title[lang]}
-                        className="w-full h-full object-cover"
-                        fallbackTitle={item.title[lang]}
-                        fallbackSubtitle={item.origin[lang]}
-                      />
-                      <span
-                        className={`absolute top-2.5 left-2.5 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] rounded-full ${badgeStyle}`}
-                      >
-                        {item.availabilityStatus[lang]}
-                      </span>
+                return (
+                  <article
+                    key={item.id}
+                    onClick={() => {
+                      if (!dragMovedRef.current) {
+                        setSelectedArtwork(item);
+                      }
+                    }}
+                    className="snap-center shrink-0 w-[280px] bg-[#EBE4D6] border border-[#D8CEBE] rounded-[2px] p-3 flex flex-col justify-between cursor-pointer"
+                  >
+                    <div>
+                      {/* Single Clean Photo per Catalog Card */}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[#DCD3C4] mb-3 rounded-[2px]">
+                        <ResilientImage
+                          src={item.image}
+                          alt={item.title[lang]}
+                          className="w-full h-full object-cover"
+                          fallbackTitle={item.title[lang]}
+                          fallbackSubtitle={item.origin[lang]}
+                        />
+
+                        {/* Top-Left Status Badge */}
+                        <span
+                          className={`absolute top-2.5 left-2.5 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] rounded-full ${badgeStyle}`}
+                        >
+                          {item.availabilityStatus[lang]}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#A85232] block">
+                          {item.heritageKicker[lang]}
+                        </span>
+                        <span className="text-[9px] font-semibold uppercase tracking-wider text-[#6E6359] tabular-nums">
+                          {item.catalogNumber}
+                        </span>
+                      </div>
+                      <h3 className="font-serif text-lg font-medium text-[#2B2520] leading-snug mt-0.5">
+                        {item.title[lang]}
+                      </h3>
+                      <p className="text-xs text-[#6E6359] mt-1.5 line-clamp-2 leading-relaxed">
+                        {item.shortStory[lang]}
+                      </p>
                     </div>
 
-                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#A85232] block">
-                      {item.heritageKicker[lang]}
-                    </span>
-                    <h3 className="font-serif text-lg font-medium text-[#2B2520] leading-snug mt-0.5">
-                      {item.title[lang]}
-                    </h3>
-                    <p className="text-xs text-[#6E6359] mt-1.5 line-clamp-2 leading-relaxed">
-                      {item.shortStory[lang]}
-                    </p>
-                  </div>
+                    <div className="mt-3 pt-2.5 border-t border-[#D8CEBE] flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-semibold text-[#A85232] bg-[#F5F0E6] px-2 py-0.5 border border-[#D8CEBE] tabular-nums">
+                        {compactPrice}
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#1C4B52] shrink-0">
+                        {lang === 'id' ? 'Lihat Cerita →' : 'Inspect Story →'}
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
 
-                  <div className="mt-3 pt-2.5 border-t border-[#D8CEBE] flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-semibold text-[#A85232] bg-[#F5F0E6] px-2 py-0.5 border border-[#D8CEBE] tabular-nums">
-                      {compactPrice}
-                    </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#1C4B52] shrink-0">
-                      {lang === 'id' ? 'Lihat Cerita →' : 'Inspect Story →'}
-                    </span>
-                  </div>
-                </article>
-              );
-            })}
+            {/* Interactive Carousel Dots & Geser Controls Bar Below Mobile Cards */}
+            <div className="mt-2 flex items-center justify-between px-1">
+              <button
+                type="button"
+                onClick={() => scrollLookbookCarousel('prev')}
+                className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[#2B2520] hover:text-[#A85232] py-1 cursor-pointer"
+              >
+                <ChevronLeft className="w-3.5 h-3.5 text-[#A85232]" />
+                <span>{lang === 'id' ? ' Sebelumnya' : 'Prev'}</span>
+              </button>
+
+              <div className="flex items-center gap-1.5">
+                {filteredCollections.map((item, idx) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => scrollLookbookCarousel(idx)}
+                    aria-label={`Slide ${idx + 1}`}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${
+                      idx === activeLookbookSlide
+                        ? 'w-6 bg-[#A85232]'
+                        : 'w-2 bg-[#D8CEBE] hover:bg-[#A85232]/60'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => scrollLookbookCarousel('next')}
+                className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[#A85232] hover:text-[#2B2520] py-1 cursor-pointer"
+              >
+                <span>{lang === 'id' ? 'Geser Karya' : 'Next Piece'}</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
           {/* -----------------------------------------------------------------
@@ -516,7 +663,7 @@ export default function App() {
                     activeCategory === 'all' ? item.gridSpanClass : 'lg:col-span-6'
                   } h-full group cursor-pointer bg-[#F5F0E6] border border-[#DCD3C4] hover:border-[#A85232]/60 p-4 sm:p-5 rounded-[2px] transition-colors duration-200 flex flex-col`}
                 >
-                  {/* Framed Inner Artwork Photo with Top-Left Pill Badge */}
+                  {/* Single Framed Artwork Photo with Top-Left Pill Badge */}
                   <div className="relative w-full h-[380px] overflow-hidden bg-[#EAE3D5] shrink-0">
                     <ResilientImage
                       src={item.image}
@@ -792,7 +939,6 @@ export default function App() {
           {/* DESKTOP FULL STORY SPLIT LAYOUT (lg+) */}
           <div className="hidden lg:block py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-              {/* Left Column: Tall Vertical Weaver Image + Top-Left Terracotta Badge + Bottom-Right Overlapping Boutique Inset */}
               <div className="lg:col-span-6 relative pt-4 pb-12 pr-8">
                 <div className="absolute top-0 -left-3 z-20 bg-[#9C4A2B] text-[#F5F0E6] px-5 py-3.5 rounded-[2px] shadow-md flex items-center gap-3">
                   <ShieldCheck className="w-5 h-5 text-[#F5F0E6] shrink-0" />
@@ -827,7 +973,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Editorial Provenance Copy & 2-Column Bottom Feature Highlights */}
               <div className="lg:col-span-6 flex flex-col justify-center">
                 <p className="text-[11px] tracking-[0.16em] uppercase font-bold text-[#A85232]">
                   {UI_COPY.story.overline[lang]}
@@ -892,8 +1037,9 @@ export default function App() {
 
         {/* ===================================================================
             SECTION 4: PLAN YOUR VISIT / PANDUAN KUNJUNGAN (F-05)
-            - Mobile Card with Stylized SVG Map Pin matching screenshot (< lg)
-            - Full 2-Column Split with Embedded Google Map on Desktop (lg+)
+            - Mobile Card with Live Google Maps Pin Embed (< lg)
+            - Full 2-Column Split with Live Google Maps Pin Embed on Desktop (lg+)
+            - No AC / Air-Conditioned Gallery claims anywhere
            =================================================================== */}
         <section
           id="panduan-kunjungan"
@@ -901,8 +1047,7 @@ export default function App() {
         >
           {/* -----------------------------------------------------------------
               MOBILE PLAN YOUR VISIT CARD (< lg)
-              Matches user's mobile screenshot (/public/assets/aistudio/image_8f853ce2.png)
-              with official Kampung Tengah address & Google Maps link
+              Uses real Google Maps embed directly at the exact business pin
              ----------------------------------------------------------------- */}
           <div className="lg:hidden max-w-xl mx-auto">
             <div className="text-center mb-5">
@@ -935,71 +1080,23 @@ export default function App() {
               <h3 className="font-serif text-lg font-medium text-[#2B2520] mt-0.5">
                 {STORE_INFO.shortAddress}
               </h3>
-              <p className="text-xs text-[#6E6359] mt-0.5 mb-4">
+              <p className="text-xs text-[#6E6359] mt-0.5 mb-3.5">
                 {lang === 'id'
-                  ? 'Kec. Komodo, Kabupaten Manggarai Barat, NTT 86554 — Tepat di koridor utama pusat kota.'
+                  ? 'Kec. Komodo, Kabupaten Manggarai Barat, NTT 86554 — Tepat di koridor jalan utama sebelum ke bandara.'
                   : 'Kec. Komodo, West Manggarai, NTT 86554 — Right on the main boutique street, convenient before your flight.'}
               </p>
 
-              {/* Stylized Interactive SVG Map Preview matching image_8f853ce2.png */}
-              <a
-                href={STORE_INFO.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open Toko oleh oleh dan souvenir labuan bajo | NUR ART SHOP in Google Maps"
-                className="relative block aspect-[16/9] rounded-[2px] overflow-hidden bg-[#DFD6C5] border border-[#D8CEBE] mb-4 group"
-              >
-                <svg
-                  className="w-full h-full object-cover"
-                  viewBox="0 0 600 320"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect width="600" height="320" fill="#E3DAC9" />
-                  <path d="M0 0L200 0L140 320L0 320Z" fill="#1C4B52" fillOpacity="0.12" />
-                  <path
-                    d="M170 0C185 110 155 210 130 320"
-                    stroke="#1C4B52"
-                    strokeOpacity="0.25"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M150 70 Q320 95 600 50"
-                    stroke="#F5F0E6"
-                    strokeWidth="12"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M210 0 Q260 160 240 320"
-                    stroke="#F5F0E6"
-                    strokeWidth="16"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M135 230 Q360 190 600 250"
-                    stroke="#F5F0E6"
-                    strokeWidth="10"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M245 145 Q400 160 580 120"
-                    stroke="#A85232"
-                    strokeOpacity="0.45"
-                    strokeWidth="2.5"
-                    strokeDasharray="5 5"
-                  />
-                </svg>
-
-                {/* Bouncing Storefront Pin & NUR ART SHOP Label */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                  <div className="w-9 h-9 rounded-full bg-[#A85232] text-[#F5F0E6] flex items-center justify-center shadow-md animate-bounce">
-                    <Store className="w-4 h-4" />
-                  </div>
-                  <div className="bg-[#2B2520] text-[#F5F0E6] px-2.5 py-0.5 rounded-[2px] text-[10px] font-bold tracking-wider uppercase mt-1 shadow-sm group-hover:bg-[#A85232] transition-colors">
-                    NUR ART SHOP
-                  </div>
-                </div>
-              </a>
+              {/* Live Google Maps Embed Directly at NUR ART SHOP Pin Location */}
+              <div className="relative w-full h-[220px] sm:h-[260px] rounded-[2px] overflow-hidden bg-[#DFD6C5] border border-[#D8CEBE] mb-4">
+                <iframe
+                  title="Titik Lokasi Google Maps Toko oleh oleh dan souvenir labuan bajo | NUR ART SHOP"
+                  src={STORE_INFO.googleMapsEmbedUrl}
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
 
               {/* Compact Hours Box */}
               <div className="bg-[#F5F0E6] p-3 rounded-[2px] border border-[#D8CEBE] mb-3 flex items-center justify-between">
@@ -1014,7 +1111,7 @@ export default function App() {
                 </span>
               </div>
 
-              {/* 2x2 Facilities Grid */}
+              {/* 2x2 Facilities Grid (Without AC claim) */}
               <div className="grid grid-cols-2 gap-2 text-[11px] mb-4">
                 <div className="flex items-center gap-1.5 bg-[#F5F0E6] p-2 border border-[#D8CEBE] rounded-[2px]">
                   <CreditCard className="w-3.5 h-3.5 text-[#1C4B52] shrink-0" />
@@ -1037,9 +1134,9 @@ export default function App() {
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 bg-[#F5F0E6] p-2 border border-[#D8CEBE] rounded-[2px]">
-                  <Snowflake className="w-3.5 h-3.5 text-[#1C4B52] shrink-0" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#1C4B52] shrink-0" />
                   <span className="text-[#2B2520] font-medium">
-                    {lang === 'id' ? 'Galeri Ber-AC' : 'Cool AC Gallery'}
+                    {lang === 'id' ? '100% Karya Asli' : '100% Authentic'}
                   </span>
                 </div>
               </div>
@@ -1059,7 +1156,7 @@ export default function App() {
 
           {/* -----------------------------------------------------------------
               DESKTOP PLAN YOUR VISIT SPLIT LAYOUT (lg+)
-              Updated with exact business name & Kampung Tengah address
+              Shows exact Google Maps Pin location & updated facilities (No AC)
              ----------------------------------------------------------------- */}
           <div className="hidden lg:block">
             <div className="max-w-3xl">
@@ -1092,7 +1189,7 @@ export default function App() {
                         {STORE_INFO.address}
                       </p>
                       <p className="text-xs text-[#6E6359] font-mono tabular-nums mt-1">
-                        Tel/WA: {STORE_INFO.phoneDisplay}
+                        GPS: {STORE_INFO.coordinates} · Tel/WA: {STORE_INFO.phoneDisplay}
                       </p>
                     </div>
                   </div>
@@ -1191,7 +1288,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Interactive Google Maps Embed & Direct Turn-by-Turn CTA */}
+              {/* Right Column: Interactive Google Maps Embed Directly at NUR ART SHOP Pin */}
               <div className="lg:col-span-6 flex flex-col justify-between bg-[#EAE3D5] border border-[#DCD3C4] rounded-[4px] overflow-hidden">
                 <div className="p-6 sm:p-8 border-b border-[#DCD3C4]">
                   <p className="text-xs uppercase tracking-[0.15em] font-semibold text-[#1C4B52]">
@@ -1205,10 +1302,10 @@ export default function App() {
                   </p>
                 </div>
 
-                {/* Embedded Interactive Google Map querying exact store name & Kampung Tengah address */}
+                {/* Embedded Interactive Google Map at exact Place Pin (-8.4939895, 119.8784846) */}
                 <div className="relative flex-1 min-h-[380px] sm:min-h-[440px] w-full bg-[#DCD3C4]">
                   <iframe
-                    title="Lokasi Peta Toko oleh oleh dan souvenir labuan bajo | NUR ART SHOP"
+                    title="Titik Lokasi Peta Toko oleh oleh dan souvenir labuan bajo | NUR ART SHOP"
                     src={STORE_INFO.googleMapsEmbedUrl}
                     className="w-full h-full min-h-[380px] sm:min-h-[440px] border-0"
                     loading="lazy"
@@ -1247,8 +1344,6 @@ export default function App() {
 
         {/* ===================================================================
             SECTION 5: VISITOR MEMORIES & GOOGLE REVIEWS (F-07)
-            - Horizontal Swipeable Cards on Mobile (< lg)
-            - 2x2 Editorial Grid on Desktop (lg+)
            =================================================================== */}
         <section
           id="ulasan"
@@ -1528,7 +1623,6 @@ export default function App() {
 
       {/* =====================================================================
           MOBILE STICKY BOTTOM ACTION BAR (< lg)
-          Side-by-side Google Maps + WhatsApp Inquiry buttons
          ===================================================================== */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#F5F0E6]/95 backdrop-blur-md border-t border-[#DCD3C4] p-2.5 flex items-center gap-2 lg:hidden">
         <a
