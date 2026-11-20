@@ -1494,7 +1494,11 @@ export default function App() {
                   <span className="text-sm text-[#574D44] tabular-nums">/ 5.0</span>
                 </div>
                 <div>
-                  <div className="flex items-center gap-1 text-[#8F3F22]" aria-label="5 out of 5 stars">
+                  <div
+                    role="img"
+                    className="flex items-center gap-1 text-[#8F3F22]"
+                    aria-label="5 out of 5 stars"
+                  >
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-[#8F3F22]" />
                     ))}
