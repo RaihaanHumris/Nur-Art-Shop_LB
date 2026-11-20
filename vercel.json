@@ -6,7 +6,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/((?!assets/|src/assets/|googlec80d149ee2033299\\.html|google.*\\.html|robots\\.txt|sitemap\\.xml).*)",
+      "source": "/((?!assets/|images/|src/assets/|googlec80d149ee2033299\\.html|google.*\\.html|robots\\.txt|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
   ],
@@ -34,6 +34,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     },

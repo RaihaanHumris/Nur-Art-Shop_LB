@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, MapPin, MessageCircle, ShieldCheck, Plane } from 'lucide-react';
+import { X, MapPin, MessageCircle, ShieldCheck, Plane } from './Icons';
 import { CollectionItem, Language, STORE_INFO, UI_COPY } from '../data/lookbookData';
 import { ResilientImage } from './ResilientImage';
 

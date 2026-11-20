@@ -30,24 +30,19 @@
       content="Curated Manggarai Songke heritage textiles, hand-carved Komodo sculptures, and Flores South Sea pearls at Jl. Soekarno Hatta, Kampung Tengah, Labuan Bajo."
     />
 
-    <!-- Preload LCP Hero Image immediately for sub-2s Mobile LCP -->
+    <!-- Preload LCP Hero Image immediately from /images/ (exact URL match with React img) -->
     <link
       rel="preload"
       as="image"
-      href="/src/assets/images/hero_mobile.webp"
-      imagesrcset="/src/assets/images/hero_mobile.webp 640w, /src/assets/images/hero_nur_art_shop_gallery_1795070278898.webp 1200w"
+      href="/images/hero_mobile.webp"
+      imagesrcset="/images/hero_mobile.webp 640w, /images/hero.webp 1200w"
       imagesizes="100vw"
       fetchpriority="high"
     />
 
-    <!-- Non-Render-Blocking Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <!-- Non-Render-Blocking Google Fonts (low priority during initial LCP) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-    />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
@@ -60,6 +55,21 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       />
     </noscript>
+
+    <!-- Critical Above-the-Fold CSS so Pre-Rendered Hero Shell paints at FCP (< 1.2s) -->
+    <style>
+      body{margin:0;background:#F5F0E6;color:#2B2520;font-family:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif}
+      .nas-shell-header{height:64px;background:#F5F0E6;border-bottom:1px solid #DCD3C4;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+      .nas-shell-brand{font-family:"Cormorant Garamond",Georgia,serif;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:#2B2520;line-height:1}
+      .nas-shell-sub{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#574D44;margin-top:6px;display:block}
+      .nas-shell-hero{position:relative;min-height:75vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:#2B2520;padding:96px 16px 32px;box-sizing:border-box}
+      .nas-shell-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+      .nas-shell-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(25,20,16,.9),rgba(25,20,16,.5),rgba(25,20,16,.45))}
+      .nas-shell-content{position:relative;z-index:10;max-width:768px}
+      .nas-shell-kicker{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:rgba(234,227,213,.95);margin:0}
+      .nas-shell-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px;font-weight:600;color:#F5F0E6;line-height:1.15;margin:10px 0 0}
+      .nas-shell-p{font-size:14px;color:rgba(234,227,213,.95);line-height:1.65;margin:14px 0 0}
+    </style>
 
     <!-- Schema.org JSON-LD LocalBusiness / Store -->
     <script type="application/ld+json">
@@ -114,7 +124,34 @@
     </script>
   </head>
   <body class="bg-[#F5F0E6] text-[#2B2520] antialiased selection:bg-[#A85232] selection:text-[#F5F0E6]">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Pre-rendered above-the-fold Hero Shell for instant FCP & LCP before JS bundle hydration -->
+      <div class="nas-shell-header">
+        <div>
+          <div class="nas-shell-brand">NUR ART SHOP</div>
+          <span class="nas-shell-sub">LABUAN BAJO • FLORES</span>
+        </div>
+      </div>
+      <section class="nas-shell-hero">
+        <img
+          src="/images/hero.webp"
+          srcset="/images/hero_mobile.webp 640w, /images/hero.webp 1200w"
+          sizes="100vw"
+          alt="Interior Galeri Nur Art Shop Labuan Bajo dengan koleksi tenun Songke Manggarai dan ukiran kayu Komodo"
+          width="1200"
+          height="900"
+          fetchpriority="high"
+          decoding="sync"
+          class="nas-shell-img"
+        />
+        <div class="nas-shell-scrim"></div>
+        <div class="nas-shell-content">
+          <p class="nas-shell-kicker">GALERI SENI &amp; TENUN MANGGARAI AUTENTIK · LABUAN BAJO</p>
+          <h1 class="nas-shell-h1">Warisan Tangan Pengrajin Manggarai &amp; Flores, Terkurasi di Jantung Labuan Bajo.</h1>
+          <p class="nas-shell-p">Seluruh koleksi tenun Songke Manggarai asli, ukiran kayu jati Pulau Komodo, dan mutiara laut Flores kami hadir secara eksklusif untuk Anda sentuh dan rasakan langsung di galeri fisik kami.</p>
+        </div>
+      </section>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

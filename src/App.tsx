@@ -25,7 +25,7 @@ import {
   Package,
   Leaf,
   Handshake,
-} from 'lucide-react';
+} from './components/Icons';
 import {
   COLLECTION_ITEMS,
   CollectionItem,
@@ -257,7 +257,7 @@ export default function App() {
                 type="button"
                 onClick={() => setLang('en')}
                 aria-pressed={lang === 'en'}
-                className={`px-2.5 py-1 rounded-[3px] transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`min-h-[30px] min-w-[34px] px-2.5 py-1 rounded-[3px] transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                   lang === 'en'
                     ? 'bg-[#8F3F22] text-[#F5F0E6] shadow-2xs'
                     : 'text-[#574D44] hover:text-[#2B2520]'
@@ -269,7 +269,7 @@ export default function App() {
                 type="button"
                 onClick={() => setLang('id')}
                 aria-pressed={lang === 'id'}
-                className={`px-2.5 py-1 rounded-[3px] transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`min-h-[30px] min-w-[34px] px-2.5 py-1 rounded-[3px] transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                   lang === 'id'
                     ? 'bg-[#8F3F22] text-[#F5F0E6] shadow-2xs'
                     : 'text-[#574D44] hover:text-[#2B2520]'
@@ -1434,7 +1434,7 @@ export default function App() {
                 href={STORE_INFO.googleReviewsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] font-bold uppercase tracking-wider text-[#1C4B52] underline"
+                className="inline-block py-2 px-1 text-[10px] font-bold uppercase tracking-wider text-[#1C4B52] underline"
               >
                 {lang === 'id' ? '180+ Ulasan' : '180+ Reviews'}
               </a>
@@ -1615,29 +1615,29 @@ export default function App() {
               <p className="text-xs uppercase tracking-[0.15em] font-semibold text-[#EAE3D5]/85">
                 {lang === 'id' ? 'Eksplorasi Galeri' : 'Explore Gallery'}
               </p>
-              <ul className="space-y-2 pt-1 text-xs sm:text-sm">
+              <ul className="space-y-1 pt-1 text-xs sm:text-sm">
                 <li>
-                  <a href="#koleksi" className="hover:underline underline-offset-4">
+                  <a href="#koleksi" className="inline-block py-1.5 hover:underline underline-offset-4">
                     {UI_COPY.nav.collection[lang]}
                   </a>
                 </li>
                 <li>
-                  <a href="#panduan-harga" className="hover:underline underline-offset-4">
+                  <a href="#panduan-harga" className="inline-block py-1.5 hover:underline underline-offset-4">
                     {UI_COPY.nav.priceGuide[lang]}
                   </a>
                 </li>
                 <li>
-                  <a href="#cerita-kami" className="hover:underline underline-offset-4">
+                  <a href="#cerita-kami" className="inline-block py-1.5 hover:underline underline-offset-4">
                     {UI_COPY.nav.story[lang]}
                   </a>
                 </li>
                 <li>
-                  <a href="#panduan-kunjungan" className="hover:underline underline-offset-4">
+                  <a href="#panduan-kunjungan" className="inline-block py-1.5 hover:underline underline-offset-4">
                     {UI_COPY.nav.visit[lang]}
                   </a>
                 </li>
                 <li>
-                  <a href="#ulasan" className="hover:underline underline-offset-4">
+                  <a href="#ulasan" className="inline-block py-1.5 hover:underline underline-offset-4">
                     {UI_COPY.nav.reviews[lang]}
                   </a>
                 </li>
@@ -1670,7 +1670,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
-                className="hover:text-[#F5F0E6] underline underline-offset-4 cursor-pointer"
+                className="py-1.5 px-1 hover:text-[#F5F0E6] underline underline-offset-4 cursor-pointer"
               >
                 {lang === 'id' ? 'Switch to English (EN)' : 'Ganti ke Bahasa Indonesia (ID)'}
               </button>
@@ -1679,7 +1679,7 @@ export default function App() {
                 href={STORE_INFO.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F5F0E6] underline underline-offset-4"
+                className="py-1.5 px-1 hover:text-[#F5F0E6] underline underline-offset-4"
               >
                 Google Maps
               </a>
