@@ -44,14 +44,7 @@ const HERO_MOBILE_IMAGE = HOTLINK_IMAGES.heroMobile;
 const STORY_PRIMARY_IMAGE = HOTLINK_IMAGES.storyWeaver;
 
 export default function App() {
-  const [lang, setLang] = useState<Language>(() => {
-    try {
-      const saved = sessionStorage.getItem('nur_art_shop_lang');
-      return saved === 'en' || saved === 'id' ? saved : 'id';
-    } catch {
-      return 'id';
-    }
-  });
+  const [lang, setLang] = useState<Language>('id');
 
   const [activeCategory, setActiveCategory] = useState<CategoryId>('all');
   const [selectedArtwork, setSelectedArtwork] = useState<CollectionItem | null>(null);
@@ -70,6 +63,17 @@ export default function App() {
   const dragStartXRef = useRef(0);
   const scrollStartLeftRef = useRef(0);
   const dragMovedRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('nur_art_shop_lang');
+      if (saved === 'en' || saved === 'id') {
+        setLang(saved);
+      }
+    } catch {
+      // Ignore storage restrictions
+    }
+  }, []);
 
   useEffect(() => {
     try {

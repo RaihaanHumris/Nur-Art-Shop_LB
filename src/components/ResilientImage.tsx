@@ -51,11 +51,27 @@ export const ResilientImage: React.FC<ResilientImageProps> = ({
   const resolvedPriority =
     fetchPriority ?? (loading === 'eager' ? 'high' : 'low');
 
+  // Automatically serve compact 480w WebP on mobile viewports for catalog & story images
+  const isCatalogOrStoryWebp =
+    !srcSet &&
+    src.startsWith('/images/') &&
+    src.endsWith('.webp') &&
+    !src.includes('hero') &&
+    !src.endsWith('_sm.webp');
+
+  const resolvedSrcSet = isCatalogOrStoryWebp
+    ? `${src.replace('.webp', '_sm.webp')} 480w, ${src} 840w`
+    : srcSet;
+
+  const resolvedSizes = isCatalogOrStoryWebp
+    ? sizes || '(max-width: 1023px) 300px, 50vw'
+    : sizes;
+
   return (
     <img
       src={src}
-      srcSet={srcSet}
-      sizes={sizes}
+      srcSet={resolvedSrcSet}
+      sizes={resolvedSizes}
       alt={alt}
       width={width}
       height={height}
