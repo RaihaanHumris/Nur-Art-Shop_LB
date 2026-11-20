@@ -55,12 +55,13 @@ export const STORE_INFO = {
 };
 
 export const HOTLINK_IMAGES = {
-  hero: '/src/assets/images/hero_nur_art_shop_gallery_1795070278898.jpg',
-  tenun: '/src/assets/images/tenun_ikat_sikka_royal_1795070277552.jpg',
-  komodo: '/src/assets/images/ukiran_komodo_kayu_jati_1795070278648.jpg',
-  pearls: '/src/assets/images/mutiara_laut_flores_south_sea_1795070278073.jpg',
-  rattan: '/src/assets/images/anyaman_lontar_songke_manggarai_1795070278597.jpg',
-  storyWeaver: '/src/assets/images/artisan_weaver_hands_flores_1795070288024.jpg',
+  hero: '/src/assets/images/hero_nur_art_shop_gallery_1795070278898.webp',
+  heroMobile: '/src/assets/images/hero_mobile.webp',
+  tenun: '/src/assets/images/tenun_ikat_sikka_royal_1795070277552.webp',
+  komodo: '/src/assets/images/ukiran_komodo_kayu_jati_1795070278648.webp',
+  pearls: '/src/assets/images/mutiara_laut_flores_south_sea_1795070278073.webp',
+  rattan: '/src/assets/images/anyaman_lontar_songke_manggarai_1795070278597.webp',
+  storyWeaver: '/src/assets/images/artisan_weaver_hands_flores_1795070288024.webp',
 };
 
 export const COLLECTION_ITEMS: CollectionItem[] = [
