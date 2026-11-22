@@ -1168,7 +1168,7 @@ export default function App() {
                   </span>
                 </div>
                 <span className="font-serif text-sm font-medium text-[#2B2520] tabular-nums">
-                  08:00 – 21:00 WITA
+                  07:00 – 23:00 WITA
                 </span>
               </div>
 
@@ -1659,7 +1659,7 @@ export default function App() {
               </p>
               <p className="text-[#EAE3D5]/95 leading-relaxed pt-1">{STORE_INFO.address}</p>
               <p className="text-[#EAE3D5]/95 tabular-nums">
-                {lang === 'id' ? 'Buka Setiap Hari:' : 'Open Daily:'} 08:00 – 21:00 WITA
+                {lang === 'id' ? 'Buka Setiap Hari:' : 'Open Daily:'} 07:00 – 23:00 WITA
               </p>
               <p className="text-[#EAE3D5]/95 tabular-nums">
                 WhatsApp Concierge: {STORE_INFO.phoneDisplay}
