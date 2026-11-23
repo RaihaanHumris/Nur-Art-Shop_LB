@@ -370,11 +370,11 @@ export default function App() {
               src={HERO_IMAGE}
               srcSet={`${HERO_MOBILE_IMAGE} 640w, ${HERO_IMAGE} 1200w`}
               sizes="100vw"
-              alt="Interior Galeri Nur Art Shop Labuan Bajo dengan koleksi tenun Songke Manggarai dan ukiran kayu Komodo"
+              alt="Suasana Toko Oleh-Oleh dan Souvenir Nur Art Shop Labuan Bajo di Jl. Soekarno Hatta dengan koleksi tenun Manggarai dan kerajinan Flores"
               loading="eager"
               fetchPriority="high"
               width={1200}
-              height={900}
+              height={675}
               className="w-full h-full object-cover object-center scale-101"
               fallbackTitle="Nur Art Shop Labuan Bajo"
             />
