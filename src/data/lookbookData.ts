@@ -55,13 +55,13 @@ export const STORE_INFO = {
 };
 
 export const HOTLINK_IMAGES = {
-  hero: '/images/hero.webp',
-  heroMobile: '/images/hero_mobile.webp',
-  tenun: '/images/tenun.webp',
-  komodo: '/images/komodo.webp',
-  pearls: '/images/pearls.webp',
+  hero: '/images/hero_v2.webp',
+  heroMobile: '/images/hero_mobile_v2.webp',
+  tenun: '/images/tenun_v2.webp',
+  komodo: '/images/komodo_v2.webp',
+  pearls: '/images/pearls_v2.webp',
   rattan: '/images/rattan.webp',
-  selendang: '/images/selendang.webp',
+  selendang: '/images/selendang_v2.webp',
   storyWeaver: '/images/weaver.webp',
 };
 
